@@ -18,10 +18,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/ayushanzar/A2Command?style=for-the-badge&logo=github&color=gold" alt="Stars"/>
-  <img src="https://img.shields.io/github/forks/ayushanzar/A2Command?style=for-the-badge&logo=github&color=blue" alt="Forks"/>
-  <img src="https://img.shields.io/github/issues/ayushanzar/A2Command?style=for-the-badge&logo=github&color=red" alt="Issues"/>
-  <img src="https://img.shields.io/github/license/ayushanzar/A2Command?style=for-the-badge&logo=opensourceinitiative&color=brightgreen" alt="License"/>
+  <img src="https://img.shields.io/github/stars/ayushrajdev9-cmyk/A2Command?style=for-the-badge&logo=github&color=gold" alt="Stars"/>
+  <img src="https://img.shields.io/github/forks/ayushrajdev9-cmyk/A2Command?style=for-the-badge&logo=github&color=blue" alt="Forks"/>
+  <img src="https://img.shields.io/github/issues/ayushrajdev9-cmyk/A2Command?style=for-the-badge&logo=github&color=red" alt="Issues"/>
+  <img src="https://img.shields.io/github/license/ayushrajdev9-cmyk/A2Command?style=for-the-badge&logo=opensourceinitiative&color=brightgreen" alt="License"/>
   <img src="https://img.shields.io/badge/Maintained%3F-Yes-brightgreen?style=for-the-badge&logo=keepachangelog" alt="Maintained"/>
   <img src="https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge&logo=githubactions" alt="PRs"/>
   <img src="https://img.shields.io/badge/Contributions-Open-blue?style=for-the-badge&logo=git" alt="Contributions"/>
@@ -112,7 +112,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/ayushanzar/A2Command.git
+git clone https://github.com/ayushrajdev9-cmyk/A2Command.git
 
 # Enter the directory
 cd A2Command

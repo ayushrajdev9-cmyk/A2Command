@@ -77,6 +77,23 @@
 - [💼 Backup and Restore](#-backup-and-restore)
 - [🔧 Troubleshooting Commands](#-troubleshooting-commands)
 - [🧠 Advanced Linux Commands](#-advanced-linux-commands)
+- [🗜️ Compression & Archiving](#️-compression--archiving)
+- [📝 Text Editors (Vim & Nano)](#-text-editors-vim--nano)
+- [🔧 System Calls & Debugging](#-system-calls--debugging)
+- [☁️ Cloud CLI Commands](#️-cloud-cli-commands)
+- [🏗️ Infrastructure as Code](#️-infrastructure-as-code)
+- [🔄 CI/CD (GitHub Actions)](#-cicd-github-actions)
+- [🔐 SSL/TLS Certificate Management](#-ssltls-certificate-management)
+- [🖥️ Virtualization (KVM & Vagrant)](#️-virtualization-kvm--vagrant)
+- [🗄️ Additional Databases](#️-additional-databases)
+- [🐳 Docker Advanced Patterns](#-docker-advanced-patterns)
+- [☸️ Kubernetes Advanced Patterns](#️-kubernetes-advanced-patterns)
+- [📊 Monitoring & Alerting](#-monitoring--alerting)
+- [🌐 Additional Web Servers](#-additional-web-servers)
+- [📦 Package Building](#-package-building)
+- [🌐 Environment Variables & Shell Configuration](#-environment-variables--shell-configuration)
+- [🧪 Testing & Profiling](#-testing--profiling)
+- [🔁 File Synchronization & Transfer](#-file-synchronization--transfer)
 - [🔗 Useful One-Liners](#-useful-one-liners)
 - [📑 Cheat Sheets](#-cheat-sheets)
 - [🎯 Beginner Tips](#-beginner-tips)
@@ -5627,6 +5644,2645 @@ patch file1.txt < changes.patch
 
 # Compare directories
 diff -r dir1 dir2
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 🗜️ Compression & Archiving
+
+### `tar` — Tape Archive
+
+```bash
+# Create tar archive
+tar -cvf archive.tar /path/to/files
+
+# Create gzipped tar
+tar -czvf archive.tar.gz /path/to/files
+
+# Create bzipped tar
+tar -cjvf archive.tar.bz2 /path/to/files
+
+# Create xz compressed tar
+tar -cJvf archive.tar.xz /path/to/files
+
+# Extract tar archive
+tar -xvf archive.tar
+
+# Extract gzipped tar
+tar -xzvf archive.tar.gz
+
+# Extract to specific directory
+tar -xzvf archive.tar.gz -C /target/dir
+
+# List contents without extracting
+tar -tvf archive.tar.gz
+
+# Extract specific file
+tar -xzvf archive.tar.gz path/to/file.txt
+
+# Exclude files
+tar -czvf backup.tar.gz --exclude='*.log' --exclude='cache/' /var/www
+
+# Add files to existing archive
+tar -rvf archive.tar newfile.txt
+
+# Incremental backup
+tar -czvf backup-full.tar.gz --listed-incremental=backup.snap /data
+
+# Differential backup
+tar -czvf backup-diff.tar.gz --listed-incremental=backup.snap /data
+```
+
+### `gzip` / `gunzip` — GNU Zip
+
+```bash
+# Compress file
+gzip file.txt
+# Output: file.txt.gz (file.txt is removed)
+
+# Keep original file
+gzip -k file.txt
+
+# Decompress
+gunzip file.txt.gz
+# or
+gzip -d file.txt.gz
+
+# Compression level (1=fast, 9=best)
+gzip -9 largefile.tar
+
+# Test integrity
+gzip -t file.txt.gz
+
+# View contents without extracting
+zcat file.txt.gz
+
+# List compressed file info
+gzip -l file.txt.gz
+```
+
+### `bzip2` / `bunzip2` — Bzip2 Compression
+
+```bash
+# Compress
+bzip2 file.txt
+# Output: file.txt.bz2
+
+# Compress with best compression
+bzip2 -9 file.txt
+
+# Keep original
+bzip2 -k file.txt
+
+# Decompress
+bunzip2 file.txt.bz2
+# or
+bzip2 -d file.txt.bz2
+
+# Test integrity
+bzip2 -t file.txt.bz2
+
+# View without extracting
+bzcat file.txt.bz2
+```
+
+### `xz` — XZ Compression
+
+```bash
+# Compress
+xz file.txt
+# Output: file.txt.xz
+
+# Compress with max compression
+xz -9 file.txt
+
+# Keep original
+xz -k file.txt
+
+# Decompress
+unxz file.txt.xz
+# or
+xz -d file.txt.xz
+
+# Test integrity
+xz -t file.txt.xz
+
+# View without extracting
+xzcat file.txt.xz
+
+# Memory limit for decompression
+xz -d --memlimit=100MiB file.txt.xz
+```
+
+### `zip` / `unzip` — ZIP Files
+
+```bash
+# Create zip archive
+zip archive.zip file1.txt file2.txt
+
+# Zip a directory recursively
+zip -r archive.zip /path/to/dir/
+
+# Zip with password
+zip -e secure.zip file.txt
+
+# Zip with encryption (ZipCrypto or AES)
+zip -e -P password file.zip file.txt
+
+# Exclude files
+zip -r archive.zip /path/ --exclude=*.log
+
+# Unzip
+unzip archive.zip
+
+# Unzip to specific directory
+unzip archive.zip -d /target/dir/
+
+# List contents
+unzip -l archive.zip
+
+# Test integrity
+unzip -t archive.zip
+
+# Extract specific file
+unzip archive.zip path/to/file.txt
+
+# Overwrite without prompting
+unzip -o archive.zip
+
+# Skip existing files
+unzip -n archive.zip
+```
+
+### `7z` — 7-Zip Archiver
+
+```bash
+# Create 7z archive
+7z a archive.7z file1.txt file2.txt
+
+# Create with password
+7z a -p secret.7z file.txt
+
+# Maximum compression
+7z a -mx=9 archive.7z /path/to/dir/
+
+# Create zip with 7z
+7z a -tzip archive.zip /path/
+
+# Extract
+7z x archive.7z
+
+# Extract to directory
+7z x archive.7z -o/target/dir/
+
+# List contents
+7z l archive.7z
+
+# Test integrity
+7z t archive.7z
+
+# Benchmark
+7z b
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 📝 Text Editors (Vim & Nano)
+
+### Vim Quick Reference
+
+```bash
+# Open file
+vim file.txt
+
+# Modes: Normal (ESC), Insert (i), Visual (v), Command (:)
+```
+
+```vim
+" Navigation (Normal mode)
+h j k l    " Left, Down, Up, Right
+w          " Next word
+b          " Previous word
+0          " Beginning of line
+$          " End of line
+gg         " Beginning of file
+G          " End of file
+:n         " Go to line N
+Ctrl+f     " Page down
+Ctrl+b     " Page up
+
+" Editing
+i          " Insert before cursor
+a          " Append after cursor
+o          " Open new line below
+O          " Open new line above
+dd         " Delete line
+yy         " Yank (copy) line
+p          " Paste below
+P          " Paste above
+x          " Delete character
+u          " Undo
+Ctrl+r     " Redo
+
+" Visual mode
+v          " Visual character mode
+V          " Visual line mode
+Ctrl+v     " Visual block mode
+y          " Copy selection
+d          " Cut selection
+
+" Search and replace
+/pattern   " Search forward
+?pattern   " Search backward
+n          " Next match
+N          " Previous match
+:%s/old/new/g    " Replace all in file
+:%s/old/new/gc   " Replace with confirmation
+:5,20s/old/new/g " Replace in lines 5-20
+
+" File operations
+:w         " Save
+:q         " Quit
+:wq        " Save and quit
+:q!        " Force quit without saving
+:w !sudo tee %  " Save as sudo
+:e file    " Open another file
+:sp file   " Split window open file
+:vs file   " Vertical split open file
+
+" Multiple windows
+Ctrl+w w   " Switch windows
+Ctrl+w v   " Vertical split
+Ctrl+w s   " Horizontal split
+Ctrl+w q   " Close window
+
+" Settings
+:set number       " Show line numbers
+:set relativenumber  " Relative line numbers
+:set hlsearch     " Highlight search
+:set syntax=python  " Set syntax highlighting
+:set tabstop=4    " Tab width
+:set expandtab    " Tabs to spaces
+:colorscheme desert  " Change color scheme
+```
+
+### Nano Quick Reference
+
+```bash
+# Basic navigation
+Ctrl+F / Ctrl+B     " Forward / Backward one char
+Alt+F / Alt+B       " Forward / Backward one word
+Ctrl+P / Ctrl+N     " Previous / Next line
+Ctrl+A / Ctrl+E     " Beginning / End of line
+Ctrl+Y / Ctrl+V     " Previous / Next page
+
+# Editing
+Ctrl+D              " Delete character under cursor
+Ctrl+H              " Delete character before cursor
+Alt+D               " Delete word
+Ctrl+K              " Cut line
+Ctrl+U              " Paste / uncut
+Alt+6               " Copy line
+
+# Search
+Ctrl+W              " Search
+Alt+W               " Find next
+
+# File operations
+Ctrl+O              " Write out (save)
+Ctrl+X              " Exit
+Ctrl+R              " Insert file
+
+# Misc
+Ctrl+G              " Help
+Ctrl+C              " Show cursor position
+Ctrl+T              " Spell check
+Ctrl+_              " Go to line number
+Ctrl+\              " Search and replace
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 🔧 System Calls & Debugging
+
+### `strace` — Trace System Calls
+
+```bash
+# Trace all syscalls of a command
+strace ls -la
+
+# Trace a specific PID
+strace -p 1234
+
+# Follow child processes (fork)
+strace -f command
+
+# Show only specific syscalls
+strace -e trace=open,read,write command
+
+# Show only network syscalls
+strace -e trace=network command
+
+# Show only file-related syscalls
+strace -e trace=file command
+
+# Show only signal syscalls
+strace -e trace=signal command
+
+# Count syscalls and errors
+strace -c command
+
+# Output to file
+strace -o /tmp/trace.log command
+
+# Show timestamps
+strace -t command
+
+# Show relative timestamps
+strace -r command
+
+# Summarize with timing
+strace -T command
+
+# Attach to running process
+strace -p 1234 -o /tmp/trace.log
+
+# Trace with maximum string size
+strace -s 1024 command
+```
+
+### `ltrace` — Trace Library Calls
+
+```bash
+# Trace library calls
+ltrace command
+
+# Trace a PID
+ltrace -p 1234
+
+# Show only specific library
+ltrace -e strcmp@libc command
+
+# Count library calls
+ltrace -c command
+
+# Output to file
+ltrace -o /tmp/ltrace.log command
+```
+
+### `gdb` — GNU Debugger
+
+```bash
+# Start debugging a program
+gdb ./program
+
+# Start debugging with arguments
+gdb --args ./program --flag value
+
+# Attach to running process
+gdb -p 1234
+
+# Run program
+(gdb) run
+
+# Run with arguments
+(gdb) run arg1 arg2
+
+# Set breakpoint at function
+(gdb) break main
+(gdb) b my_function
+
+# Set breakpoint at line
+(gdb) break file.c:42
+
+# Set conditional breakpoint
+(gdb) break main if argc > 1
+
+# List breakpoints
+(gdb) info break
+
+# Delete breakpoint
+(gdb) delete 1
+
+# Continue execution
+(gdb) continue
+
+# Step into function
+(gdb) step
+(gdb) s
+
+# Step over function
+(gdb) next
+(gdb) n
+
+# Finish current function
+(gdb) finish
+
+# Print variable
+(gdb) print variable_name
+(gdb) p var
+
+# Print with format
+(gdb) p/x var    # hexadecimal
+(gdb) p/d var    # decimal
+(gdb) p/s var    # string
+
+# Backtrace (call stack)
+(gdb) backtrace
+(gdb) bt
+
+# Examine memory
+(gdb) x/16x $rsp
+
+# Set variable value
+(gdb) set var = 42
+
+# Disassemble
+(gdb) disassemble main
+(gdb) disas
+
+# View registers
+(gdb) info registers
+
+# Thread info
+(gdb) info threads
+(gdb) thread apply all bt
+
+# TUI mode
+(gdb) tui enable
+
+# Quit
+(gdb) quit
+```
+
+### `objdump` — Object File Analysis
+
+```bash
+# Disassemble binary
+objdump -d /path/to/binary
+
+# Show headers
+objdump -x /path/to/binary
+
+# Show symbol table
+objdump -t /path/to/binary
+
+# Show dynamic symbols
+objdump -T /path/to/binary
+
+# Show section headers
+objdump -h /path/to/binary
+
+# Show relocation entries
+objdump -r /path/to/binary
+
+# Show source interleaved (if compiled with -g)
+objdump -S /path/to/binary
+
+# Show all headers
+objdump -p /path/to/binary
+```
+
+### `readelf` — ELF File Analysis
+
+```bash
+# Show ELF header
+readelf -h /path/to/binary
+
+# Show program headers
+readelf -l /path/to/binary
+
+# Show section headers
+readelf -S /path/to/binary
+
+# Show symbol table
+readelf -s /path/to/binary
+
+# Show dynamic section
+readelf -d /path/to/binary
+
+# Show notes
+readelf -n /path/to/binary
+
+# Show all info
+readelf -a /path/to/binary
+```
+
+### `perf` — Linux Profiling
+
+```bash
+# List events
+perf list
+
+# Record CPU cycles for a command
+perf record command
+
+# Record with call graph
+perf record -g command
+
+# Record for specific PID
+perf record -p 1234 -g --sleep 30
+
+# Report profiling results
+perf report
+
+# Show top functions
+perf top
+
+# Show statistics
+perf stat command
+
+# Show detailed statistics
+perf stat -d command
+
+# Cache miss analysis
+perf stat -e cache-misses,cache-references command
+
+# Trace scheduler
+perf sched record command
+perf sched latency
+
+# Record for entire system
+sudo perf record -a -g --sleep 10
+```
+
+### `valgrind` — Memory Debugging
+
+```bash
+# Memory leak detection
+valgrind --leak-check=full ./program
+
+# With detailed output
+valgrind --leak-check=full --show-leak-kinds=all ./program
+
+# Generate suppressions file
+valgrind --gen-suppressions=yes ./program 2> suppressions.txt
+
+# Profile cache usage
+valgrind --tool=cachegrind ./program
+
+# Profile heap
+valgrind --tool=massif ./program
+ms_print massif.out.*  # View heap profile
+
+# Thread error detector
+valgrind --tool=helgrind ./program
+
+# Detect undefined behavior
+valgrind --tool=exp-sgcheck ./program
+
+# Output to file
+valgrind --log-file=valgrind.log ./program
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## ☁️ Cloud CLI Commands
+
+### AWS CLI
+
+```bash
+# Configure AWS CLI
+aws configure
+aws configure set region us-east-1
+aws configure list
+
+# EC2 instances
+aws ec2 describe-instances
+aws ec2 describe-instances --query "Reservations[*].Instances[*].[InstanceId,State.Name,InstanceType]"
+aws ec2 start-instances --instance-ids i-1234567890abcdef0
+aws ec2 stop-instances --instance-ids i-1234567890abcdef0
+aws ec2 terminate-instances --instance-ids i-1234567890abcdef0
+
+# S3
+aws s3 ls
+aws s3 ls s3://my-bucket
+aws s3 cp file.txt s3://my-bucket/
+aws s3 cp s3://my-bucket/file.txt .
+aws s3 sync /local/dir s3://my-bucket/
+aws s3 rm s3://my-bucket/file.txt
+aws s3 mb s3://new-bucket
+aws s3 rb s3://old-bucket
+
+# IAM
+aws iam list-users
+aws iam list-access-keys --user-name admin
+aws iam create-user --user-name devops
+aws iam attach-user-policy --user-name devops --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+
+# Lambda
+aws lambda list-functions
+aws lambda invoke --function-name my-function output.json
+aws lambda create-function --function-name my-func --runtime python3.9 --role arn:aws:iam::xxx:role/lambda-role --handler handler.handler --zip-file fileb://function.zip
+
+# CloudWatch
+aws logs describe-log-groups
+aws logs tail /aws/lambda/my-function --follow
+aws cloudwatch list-metrics
+aws cloudwatch put-metric-alarm --alarm-name CPUHigh --evaluation-periods 2 --threshold 80 --comparison-operator GreaterThanThreshold
+
+# ECS / EKS
+aws ecs list-clusters
+aws eks list-clusters
+aws eks update-kubeconfig --name my-cluster --region us-east-1
+```
+
+### GCP CLI (gcloud)
+
+```bash
+# Configuration
+gcloud config set project my-project
+gcloud config set compute/region us-central1
+gcloud config list
+
+# Compute Engine
+gcloud compute instances list
+gcloud compute instances create my-vm --zone us-central1-a --machine-type e2-medium
+gcloud compute instances stop my-vm
+gcloud compute instances start my-vm
+gcloud compute ssh my-vm
+
+# Cloud Storage
+gsutil ls
+gsutil ls gs://my-bucket
+gsutil cp file.txt gs://my-bucket/
+gsutil cp gs://my-bucket/file.txt .
+gsutil rsync /local/dir gs://my-bucket/
+gsutil rm gs://my-bucket/file.txt
+gsutil mb gs://new-bucket
+
+# Kubernetes
+gcloud container clusters list
+gcloud container clusters create my-cluster --num-nodes=3
+gcloud container clusters get-credentials my-cluster
+gcloud container clusters delete my-cluster
+
+# Cloud SQL
+gcloud sql instances list
+gcloud sql databases list --instance=my-instance
+gcloud sql connect my-instance
+
+# Cloud Run
+gcloud run services list
+gcloud run deploy my-service --image gcr.io/my-project/my-image --region us-central1
+
+# IAM
+gcloud iam service-accounts list
+gcloud projects add-iam-policy-binding my-project --member serviceAccount:sa@project.iam.gserviceaccount.com --role roles/editor
+```
+
+### Azure CLI
+
+```bash
+# Login
+az login
+az account show
+az account list --output table
+
+# VMs
+az vm list
+az vm list --query "[].{Name:name, Status:powerState}"
+az vm create --resource-group my-rg --name my-vm --image UbuntuLTS --admin-username azureuser
+az vm start --name my-vm --resource-group my-rg
+az vm stop --name my-vm --resource-group my-rg
+az vm delete --name my-vm --resource-group my-rg
+
+# Storage
+az storage account list
+az storage container list --account-name mystorage
+az storage blob upload --account-name mystorage --container-name data --file file.txt
+az storage blob download --account-name mystorage --container-name data --name file.txt --file ./file.txt
+
+# AKS
+az aks list
+az aks create --resource-group my-rg --name my-cluster --node-count 3
+az aks get-credentials --resource-group my-rg --name my-cluster
+az aks delete --resource-group my-rg --name my-cluster
+
+# Functions
+az functionapp list
+az functionapp create --resource-group my-rg --consumption-plan-location centralus --name my-func --storage-account mystorage --runtime python
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 🏗️ Infrastructure as Code
+
+### Ansible
+
+```bash
+# Ad-hoc command
+ansible all -i inventory.ini -m ping
+ansible all -i inventory.ini -m command -a "uptime"
+ansible all -i inventory.ini -m apt -a "name=nginx state=present" --become
+
+# Playbook execution
+ansible-playbook -i inventory.ini playbook.yml
+ansible-playbook -i inventory.ini playbook.yml --check          # Dry run
+ansible-playbook -i inventory.ini playbook.yml --diff           # Show diff
+ansible-playbook -i inventory.ini playbook.yml --step           # Interactive
+ansible-playbook -i inventory.ini playbook.yml --tags setup     # Run specific tags
+ansible-playbook -i inventory.ini playbook.yml --limit web      # Limit to hosts
+ansible-playbook -i inventory.ini playbook.yml -v               # Verbose
+ansible-playbook -i inventory.ini playbook.yml -vvv             # More verbose
+
+# Inventory file (inventory.ini)
+#[web]
+#web1 ansible_host=192.168.1.10
+#web2 ansible_host=192.168.1.11
+#
+#[db]
+#db1 ansible_host=192.168.1.20
+#
+#[all:vars]
+#ansible_user=admin
+#ansible_ssh_private_key_file=~/.ssh/id_ed25519
+
+# Vault
+ansible-vault create secrets.yml
+ansible-vault edit secrets.yml
+ansible-vault encrypt file.yml
+ansible-vault decrypt file.yml
+ansible-vault rekey secrets.yml
+ansible-playbook playbook.yml --ask-vault-pass
+ansible-playbook playbook.yml --vault-password-file .vault_pass
+```
+
+```yaml
+# playbook.yml
+---
+- name: Configure web server
+  hosts: web
+  become: yes
+  vars:
+    nginx_port: 80
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+      notify: restart nginx
+
+    - name: Copy config
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+      notify: reload nginx
+
+    - name: Ensure nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded
+```
+
+### Terraform
+
+```bash
+# Initialize project
+terraform init
+
+# Format code
+terraform fmt
+terraform fmt -recursive
+
+# Validate configuration
+terraform validate
+
+# Plan (show changes without applying)
+terraform plan
+terraform plan -out plan.tfplan
+terraform plan -var="instance_type=t3.micro"
+terraform plan -var-file=production.tfvars
+
+# Apply
+terraform apply
+terraform apply plan.tfplan
+terraform apply -auto-approve
+terraform apply -var="region=us-west-2"
+
+# Destroy
+terraform destroy
+terraform destroy -target=aws_instance.web
+terraform destroy -auto-approve
+
+# Show state
+terraform show
+terraform state list
+terraform state show aws_instance.web
+terraform state mv aws_instance.old aws_instance.new
+terraform state rm aws_instance.removed
+terraform state pull > backup.tfstate
+
+# Workspace management
+terraform workspace list
+terraform workspace new staging
+terraform workspace select production
+terraform workspace show
+
+# Import existing infrastructure
+terraform import aws_instance.web i-1234567890abcdef0
+terraform import aws_s3_bucket.data my-bucket
+
+# Output values
+terraform output
+terraform output instance_ip
+
+# Console (test expressions)
+terraform console
+# > 1 + 2
+# 3
+# > aws_instance.web.public_ip
+# "203.0.113.10"
+```
+
+```hcl
+# main.tf
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = var.region
+}
+
+resource "aws_instance" "web" {
+  ami                    = "ami-0c55b159cbfafe1f0"
+  instance_type          = var.instance_type
+  key_name               = aws_key_pair.deployer.key_name
+  vpc_security_group_ids = [aws_security_group.web.id]
+
+  tags = {
+    Name = "WebServer-${var.environment}"
+  }
+}
+
+variable "region" {
+  default = "us-east-1"
+}
+
+variable "instance_type" {
+  default = "t2.micro"
+}
+
+variable "environment" {
+  default = "dev"
+}
+
+output "instance_ip" {
+  value = aws_instance.web.public_ip
+}
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 🔄 CI/CD (GitHub Actions)
+
+### Basic Workflow
+
+```yaml
+# .github/workflows/ci.yml
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t myapp:${{ github.sha }} .
+
+      - name: Push to registry
+        run: |
+          docker tag myapp:${{ github.sha }} ghcr.io/${{ github.repository }}:latest
+          docker push ghcr.io/${{ github.repository }}:latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker pull ghcr.io/${{ github.repository }}:latest
+            docker stop myapp || true
+            docker rm myapp || true
+            docker run -d --name myapp -p 80:3000 ghcr.io/${{ github.repository }}:latest
+```
+
+### Common Actions
+
+```yaml
+# Docker build and push
+- name: Build and push Docker image
+  uses: docker/build-push-action@v4
+  with:
+    context: .
+    push: true
+    tags: ${{ github.repository }}:latest
+
+# Deploy to Kubernetes
+- name: Deploy to Kubernetes
+  uses: azure/k8s-deploy@v4
+  with:
+    namespace: production
+    manifests: k8s/deployment.yaml
+    images: myapp:${{ github.sha }}
+
+# Slack notification
+- name: Notify Slack
+  uses: rtCamp/action-slack-notify@v2
+  env:
+    SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    SLACK_MESSAGE: "Deployment successful!"
+    SLACK_COLOR: good
+
+# S3 sync
+- name: Deploy to S3
+  uses: jakejarvis/s3-sync-action@master
+  with:
+    args: --acl public-read --delete
+  env:
+    AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 🔐 SSL/TLS Certificate Management
+
+### OpenSSL
+
+```bash
+# Generate a self-signed certificate
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout private.key -out certificate.crt \
+  -subj "/C=US/ST=State/L=City/O=Organization/CN=example.com"
+
+# Generate CSR (Certificate Signing Request)
+openssl req -new -newkey rsa:2048 -nodes \
+  -keyout private.key -out request.csr \
+  -subj "/C=US/ST=State/L=City/O=Org/CN=example.com"
+
+# Generate CSR with config file
+openssl req -new -newkey rsa:2048 -nodes \
+  -keyout private.key -out request.csr -config openssl.cnf
+
+# View certificate details
+openssl x509 -in certificate.crt -text -noout
+
+# View certificate dates
+openssl x509 -in certificate.crt -noout -dates
+
+# View certificate subject
+openssl x509 -in certificate.crt -noout -subject
+
+# View certificate issuer
+openssl x509 -in certificate.crt -noout -issuer
+
+# View certificate fingerprint
+openssl x509 -in certificate.crt -noout -fingerprint -sha256
+
+# Check SSL connection details
+echo | openssl s_client -connect example.com:443 -servername example.com
+
+# Show certificate chain
+openssl s_client -connect example.com:443 -showcerts </dev/null
+
+# Test specific TLS version
+openssl s_client -tls1_2 -connect example.com:443
+openssl s_client -tls1_3 -connect example.com:443
+
+# Convert PEM to PFX (PKCS12)
+openssl pkcs12 -export -in certificate.crt -inkey private.key -out bundle.pfx
+
+# Convert PFX to PEM
+openssl pkcs12 -in bundle.pfx -out bundle.pem -nodes
+
+# Convert PEM to DER
+openssl x509 -in certificate.crt -outform der -out certificate.der
+
+# Generate DH parameters
+openssl dhparam -out dhparam.pem 2048
+
+# Check CRL
+openssl crl -in crl.pem -text -noout
+
+# Encrypt file with public key
+openssl pkeyutl -encrypt -in file.txt -pubin -inkey public.pem -out file.enc
+
+# Decrypt with private key
+openssl pkeyutl -decrypt -in file.enc -inkey private.key -out file.txt
+```
+
+### Let's Encrypt (Certbot)
+
+```bash
+# Install Certbot
+sudo apt install certbot -y
+sudo apt install python3-certbot-nginx -y  # Nginx plugin
+sudo apt install python3-certbot-apache -y # Apache plugin
+
+# Obtain certificate (standalone)
+sudo certbot certonly --standalone -d example.com -d www.example.com
+
+# Obtain with Nginx plugin
+sudo certbot --nginx -d example.com -d www.example.com
+
+# Obtain with Apache plugin
+sudo certbot --apache -d example.com -d www.example.com
+
+# Obtain wildcard certificate
+sudo certbot certonly --manual -d *.example.com -d example.com --server https://acme-v02.api.letsencrypt.org/directory
+
+# List certificates
+sudo certbot certificates
+
+# Renew all certificates
+sudo certbot renew
+
+# Renew specific certificate
+sudo certbot renew --cert-name example.com
+
+# Dry-run renewal
+sudo certbot renew --dry-run
+
+# Force renewal
+sudo certbot renew --force-renewal
+
+# Delete certificate
+sudo certbot delete --cert-name example.com
+
+# Revoke certificate
+sudo certbot revoke --cert-name example.com --reason superseded
+
+# Auto-renewal (systemd timer)
+sudo systemctl enable --now certbot.timer
+sudo systemctl status certbot.timer
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 🖥️ Virtualization (KVM & Vagrant)
+
+### KVM / QEMU
+
+```bash
+# Check virtualization support
+grep -E '(vmx|svm)' /proc/cpuinfo
+kvm-ok
+
+# Install KVM
+sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager -y
+
+# Add user to libvirt group
+sudo usermod -aG libvirt $USER
+sudo usermod -aG kvm $USER
+
+# List VMs
+virsh list --all
+
+# Start VM
+virsh start vm-name
+
+# Shutdown VM
+virsh shutdown vm-name
+
+# Force off VM
+virsh destroy vm-name
+
+# Connect to VM console
+virsh console vm-name
+
+# Create VM from XML
+virsh create vm.xml
+
+# Define VM from XML
+virsh define vm.xml
+
+# Edit VM config
+virsh edit vm-name
+
+# Clone VM
+virt-clone --original vm-name --name vm-clone --auto-clone
+
+# VM info
+virsh dominfo vm-name
+
+# VM resources
+virsh vcpuinfo vm-name
+virsh dommemstat vm-name
+
+# Snapshot
+virsh snapshot-create-as vm-name snap1 "First snapshot"
+virsh snapshot-list vm-name
+virsh snapshot-revert vm-name snap1
+
+# Network
+virsh net-list --all
+virsh net-info default
+virsh net-start default
+
+# Storage pools
+virsh pool-list --all
+virsh vol-list default
+```
+
+### Vagrant
+
+```bash
+# Initialize Vagrantfile
+vagrant init ubuntu/jammy64
+
+# Start VM
+vagrant up
+
+# SSH into VM
+vagrant ssh
+
+# Halt VM
+vagrant halt
+
+# Suspend VM
+vagrant suspend
+
+# Resume VM
+vagrant resume
+
+# Reload VM (apply Vagrantfile changes)
+vagrant reload
+
+# Destroy VM
+vagrant destroy
+
+# Destroy without confirmation
+vagrant destroy -f
+
+# Provision VM
+vagrant provision
+
+# Status
+vagrant status
+
+# List boxes
+vagrant box list
+
+# Add box
+vagrant box add ubuntu/jammy64
+
+# Update box
+vagrant box update
+
+# Remove box
+vagrant box remove ubuntu/jammy64
+
+# Package box
+vagrant package --output mybox.box
+
+# Share VM
+vagrant share
+```
+
+```ruby
+# Vagrantfile
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64"
+  config.vm.hostname = "devbox"
+
+  config.vm.network "private_network", ip: "192.168.56.10"
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  config.vm.synced_folder "./data", "/vagrant_data"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "2048"
+    vb.cpus = 2
+    vb.name = "dev-vm"
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    apt update
+    apt install -y nginx
+    systemctl enable --now nginx
+  SHELL
+end
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 🗄️ Additional Databases
+
+### MongoDB
+
+```bash
+# Connect to MongoDB
+mongosh
+mongosh "mongodb://localhost:27017"
+mongosh "mongodb+srv://cluster.mongodb.net/mydb" --username admin
+
+# Show databases
+show dbs
+
+# Use database
+use mydb
+
+# Collections
+show collections
+
+# CRUD
+db.users.insertOne({ name: "John", email: "john@example.com", age: 30 })
+db.users.insertMany([
+  { name: "Jane", email: "jane@example.com", age: 25 },
+  { name: "Bob", email: "bob@example.com", age: 35 }
+])
+db.users.find()
+db.users.find({ age: { $gt: 25 } })
+db.users.find({ name: "John" }).pretty()
+db.users.updateOne({ name: "John" }, { $set: { age: 31 } })
+db.users.deleteOne({ name: "Bob" })
+
+# Indexes
+db.users.createIndex({ email: 1 })
+db.users.getIndexes()
+
+# Aggregation
+db.users.aggregate([
+  { $group: { _id: null, avgAge: { $avg: "$age" }, total: { $sum: 1 } } }
+])
+
+# Backup and restore
+mongodump --db mydb --out /backups/mongo/
+mongorestore --db mydb /backups/mongo/mydb/
+
+# Export/Import
+mongoexport --db mydb --collection users --out users.json
+mongoimport --db mydb --collection users --file users.json
+
+# Server status
+mongosh --eval "db.serverStatus()"
+```
+
+### SQLite
+
+```bash
+# Create/open database
+sqlite3 database.db
+
+# Create table
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    age INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+# Insert
+INSERT INTO users (name, email) VALUES ('John', 'john@example.com');
+INSERT INTO users (name, email) VALUES ('Jane', 'jane@example.com');
+
+# Query
+SELECT * FROM users;
+SELECT * FROM users WHERE age > 25;
+SELECT COUNT(*) FROM users;
+
+# Export
+.output dump.sql
+.dump
+.output stdout
+
+# Import
+.read dump.sql
+
+# Backup
+.backup backup.db
+
+# Show schema
+.schema
+
+# Show tables
+.tables
+
+# Indexes
+CREATE INDEX idx_email ON users(email);
+
+# Exit
+.exit
+
+# Command-line operations
+sqlite3 database.db "SELECT * FROM users;"
+sqlite3 database.db .dump > backup.sql
+sqlite3 database.db < backup.sql
+```
+
+### Elasticsearch
+
+```bash
+# Cluster health
+curl -X GET "localhost:9200/_cluster/health?pretty"
+
+# List indices
+curl -X GET "localhost:9200/_cat/indices?v"
+
+# Create index
+curl -X PUT "localhost:9200/myindex"
+
+# Index a document
+curl -X POST "localhost:9200/myindex/_doc" -H 'Content-Type: application/json' -d'
+{
+  "title": "Elasticsearch Guide",
+  "content": "Learning Elasticsearch",
+  "tags": ["search", "database"],
+  "date": "2026-06-08"
+}'
+
+# Get document
+curl -X GET "localhost:9200/myindex/_doc/doc_id"
+
+# Search
+curl -X GET "localhost:9200/myindex/_search?q=title:Elasticsearch&pretty"
+curl -X GET "localhost:9200/myindex/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match": { "content": "learning" }
+  }
+}'
+
+# Delete index
+curl -X DELETE "localhost:9200/myindex"
+
+# Bulk insert
+curl -X POST "localhost:9200/_bulk" -H 'Content-Type: application/json' -d'
+{ "index": { "_index": "myindex" } }
+{ "title": "Doc 1", "content": "First document" }
+{ "index": { "_index": "myindex" } }
+{ "title": "Doc 2", "content": "Second document" }
+'
+
+# Aggregation
+curl -X GET "localhost:9200/myindex/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "aggs": {
+    "by_tag": {
+      "terms": { "field": "tags" }
+    }
+  }
+}'
+
+# Snapshot
+curl -X PUT "localhost:9200/_snapshot/my_backup/snapshot_1?wait_for_completion=true"
+
+# Restore
+curl -X POST "localhost:9200/_snapshot/my_backup/snapshot_1/_restore"
+
+# Node info
+curl -X GET "localhost:9200/_nodes/stats"
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 🐳 Docker Advanced Patterns
+
+### Multi-Stage Builds
+
+```dockerfile
+# Build stage
+FROM golang:1.21 AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -o server .
+
+# Runtime stage
+FROM alpine:3.19
+RUN apk --no-cache add ca-certificates
+WORKDIR /app
+COPY --from=builder /app/server .
+COPY --from=builder /app/static ./static
+EXPOSE 8080
+USER 1000:1000
+CMD ["./server"]
+```
+
+```bash
+docker build -t myapp:latest .
+docker build --target builder -t myapp:build .
+```
+
+### Docker Healthchecks
+
+```dockerfile
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:8080/health || exit 1
+```
+
+```bash
+docker inspect --format='{{json .State.Health}}' container_name
+```
+
+### Docker Init (tini)
+
+```dockerfile
+FROM node:20-alpine
+RUN apk add --no-cache tini
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["node", "server.js"]
+```
+
+### Docker with .dockerignore
+
+```dockerignore
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+.env.*
+Dockerfile
+.dockerignore
+*.md
+coverage
+.nyc_output
+```
+
+### Docker Logging Drivers
+
+```bash
+# JSON file (default)
+docker run --log-driver json-file --log-opt max-size=10m --log-opt max-file=3 nginx
+
+# syslog
+docker run --log-driver syslog --log-opt syslog-address=udp://192.168.1.100:514 nginx
+
+# journald
+docker run --log-driver journald nginx
+
+# Fluentd
+docker run --log-driver fluentd --log-opt fluentd-address=localhost:24224 nginx
+
+# Disable logging
+docker run --log-driver none nginx
+
+# View logs with options
+docker logs --tail 100 -f --timestamps container_name
+```
+
+### Docker Security
+
+```bash
+# Run as non-root user
+docker run --user 1000:1000 nginx
+
+# Drop capabilities
+docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE nginx
+
+# Read-only root filesystem
+docker run --read-only --tmpfs /tmp --tmpfs /var/run nginx
+
+# No new privileges
+docker run --security-opt=no-new-privileges nginx
+
+# Seccomp profile
+docker run --security-opt seccomp=/path/to/seccomp/profile.json nginx
+
+# AppArmor profile
+docker run --security-opt apparmor=my-custom-profile nginx
+
+# Limit resources
+docker run --memory=256m --cpus=0.5 --pids-limit=100 nginx
+
+# Rootless Docker (dockerd-rootless-setuptool.sh)
+```
+
+### Docker Swarm
+
+```bash
+# Initialize swarm
+docker swarm init
+docker swarm init --advertise-addr 192.168.1.100
+
+# Join as worker
+docker swarm join --token SWMTKN-1-xxxx 192.168.1.100:2377
+
+# Join as manager
+docker swarm join-token manager
+
+# List nodes
+docker node ls
+
+# Deploy stack
+docker stack deploy -c docker-compose.yml myapp
+
+# List stacks
+docker stack ls
+
+# List services in stack
+docker stack services myapp
+
+# List tasks in stack
+docker stack ps myapp
+
+# Remove stack
+docker stack rm myapp
+
+# Create service
+docker service create --replicas 3 --name web -p 80:80 nginx
+
+# List services
+docker service ls
+
+# Scale service
+docker service scale web=5
+
+# Update service
+docker service update --image nginx:alpine web
+
+# Rolling update
+docker service update --update-parallelism 2 --update-delay 10s web
+
+# Rollback
+docker service rollback web
+
+# View service logs
+docker service logs -f web
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## ☸️ Kubernetes Advanced Patterns
+
+### Resource Management
+
+```yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute-quota
+  namespace: dev
+spec:
+  hard:
+    requests.cpu: "4"
+    requests.memory: 8Gi
+    limits.cpu: "8"
+    limits.memory: 16Gi
+    pods: "10"
+    persistentvolumeclaims: "5"
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: resource-limits
+  namespace: dev
+spec:
+  limits:
+  - max:
+      cpu: "2"
+      memory: 2Gi
+    min:
+      cpu: 100m
+      memory: 128Mi
+    default:
+      cpu: 500m
+      memory: 512Mi
+    defaultRequest:
+      cpu: 250m
+      memory: 256Mi
+    type: Container
+```
+
+### Pod Disruption Budgets
+
+```yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: web-pdb
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: web
+```
+
+### Network Policies
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-allow
+spec:
+  podSelector:
+    matchLabels:
+      app: api
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: web
+    ports:
+    - protocol: TCP
+      port: 3000
+```
+
+### Horizontal Pod Autoscaler
+
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: web-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: web
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+```
+
+### kubectl Tips
+
+```bash
+# Watch resources in real-time
+kubectl get pods -w
+kubectl get events -w --all-namespaces
+
+# Show resource usage
+kubectl top pods
+kubectl top nodes
+kubectl top pods --namespace=production
+
+# JSONPath queries
+kubectl get pods -o=jsonpath='{.items[*].metadata.name}'
+kubectl get nodes -o=jsonpath='{.items[*].status.nodeInfo.kubeletVersion}'
+
+# Custom columns
+kubectl get pods -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,IP:.status.podIP
+
+# Sort pods
+kubectl get pods --sort-by=.status.startTime
+kubectl get pods --sort-by=.metadata.creationTimestamp
+
+# Short names
+kubectl get po    # pods
+kubectl get svc   # services
+kubectl get deploy # deployments
+kubectl get rs    # replicasets
+kubectl get cm    # configmaps
+kubectl get secrets # secrets
+kubectl get pv    # persistentvolumes
+kubectl get pvc   # persistentvolumeclaims
+kubectl get ns    # namespaces
+kubectl get no    # nodes
+kubectl get ing   # ingresses
+
+# Context shortcuts
+kubectx           # Switch context
+kubens production # Switch namespace
+
+# Port forward
+kubectl port-forward service/web 8080:80
+kubectl port-forward deployment/web 8080:80
+kubectl port-forward pod/web-7d9f8c5b6-abcde 8080:80
+
+# Copy to/from pod
+kubectl cp ./backup.sql production/mysql-0:/tmp/backup.sql
+kubectl cp production/mysql-0:/var/lib/mysql/dump.sql ./dump.sql -c mysql
+
+# Exec without shell
+kubectl exec deployment/web -- ls -la /app
+
+# Debug pod
+kubectl debug -it pod-name --image=busybox --target=container-name
+kubectl debug node/node-name --image=ubuntu -- chroot /host
+
+# Restart deployment (graceful)
+kubectl rollout restart deployment/web
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 📊 Monitoring & Alerting
+
+### Prometheus
+
+```yaml
+# prometheus.yml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'node'
+    static_configs:
+      - targets: ['localhost:9100']
+
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['192.168.1.10:9113']
+
+  - job_name: 'docker'
+    static_configs:
+      - targets: ['localhost:9323']
+```
+
+```bash
+# PromQL queries
+# CPU usage
+rate(node_cpu_seconds_total{mode="user"}[5m])
+
+# Memory usage
+(1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100
+
+# Disk space
+(node_filesystem_size_bytes - node_filesystem_free_bytes) / node_filesystem_size_bytes * 100
+
+# HTTP request rate
+rate(nginx_http_requests_total[5m])
+
+# HTTP error rate
+rate(nginx_http_requests_total{status=~"5[0-9]{2}"}[5m]) / rate(nginx_http_requests_total[5m]) * 100
+
+# Container memory
+container_memory_usage_bytes{container!=""}
+
+# Up/down
+up{job="node"}
+
+# 95th percentile
+histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
+```
+
+### Grafana
+
+```bash
+# Install Grafana
+sudo apt install -y software-properties-common
+sudo apt install grafana -y
+sudo systemctl enable --now grafana-server
+
+# Default login: admin / admin
+# Web UI: http://localhost:3000
+
+# API
+curl -X POST http://admin:admin@localhost:3000/api/datasources -H 'Content-Type: application/json' -d'
+{
+  "name": "Prometheus",
+  "type": "prometheus",
+  "url": "http://localhost:9090",
+  "access": "proxy"
+}'
+
+# Import dashboard
+curl -X POST http://admin:admin@localhost:3000/api/dashboards/db -H 'Content-Type: application/json' -d @dashboard.json
+
+# Export dashboard
+curl http://admin:admin@localhost:3000/api/dashboards/uid/dashboard-uid > dashboard.json
+```
+
+### Node Exporter
+
+```bash
+# Install Node Exporter
+wget https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-amd64.tar.gz
+tar -xzf node_exporter-*.tar.gz
+sudo mv node_exporter-*/node_exporter /usr/local/bin/
+
+# Create systemd service
+sudo cat > /etc/systemd/system/node_exporter.service << EOF
+[Unit]
+Description=Node Exporter
+After=network.target
+
+[Service]
+User=nobody
+ExecStart=/usr/local/bin/node_exporter --web.listen-address=:9100
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl enable --now node_exporter
+
+# Collectors
+node_exporter --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
+node_exporter --no-collector.wifi --no-collector.nfs
+```
+
+### Loki (Log Aggregation)
+
+```yaml
+# docker-compose.yml for Loki + Promtail
+version: '3'
+services:
+  loki:
+    image: grafana/loki:2.9.0
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config.yaml:/etc/loki/local-config.yaml
+    command: -config.file=/etc/loki/local-config.yaml
+
+  promtail:
+    image: grafana/promtail:2.9.0
+    volumes:
+      - /var/log:/var/log
+      - ./promtail-config.yaml:/etc/promtail/config.yaml
+    command: -config.file=/etc/promtail/config.yaml
+```
+
+```bash
+# LogQL queries
+# All logs from nginx
+{app="nginx"}
+
+# With filter
+{app="nginx"} |= "error"
+{app="nginx"} |~ "4[0-9]{2}"
+
+# Time range
+{app="nginx"} |~ "5[0-9]{2}" | logfmt | status >= 500
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 🌐 Additional Web Servers
+
+### Caddy
+
+```bash
+# Install Caddy
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update
+sudo apt install caddy -y
+
+# Basic usage
+sudo systemctl enable --now caddy
+caddy version
+caddy list-modules
+```
+
+```caddy
+# Caddyfile
+example.com {
+    root * /var/www/example.com
+    file_server
+    encode gzip zstd
+
+    # Reverse proxy
+    reverse_proxy /api/* localhost:3000
+
+    # PHP
+    php_fastcgi localhost:9000
+
+    # Security headers
+    header {
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+
+    # Rate limit
+    rate_limit {
+        zone dynamic {
+            key {remote_host}
+            events 100
+            window 1m
+        }
+    }
+
+    # Logs
+    log {
+        output file /var/log/caddy/example.com.log
+        format json
+    }
+}
+
+# Reverse proxy with load balancing
+api.example.com {
+    reverse_proxy {
+        to 192.168.1.10:3000 192.168.1.11:3000
+        lb_policy round_robin
+        health_uri /health
+        health_interval 30s
+    }
+}
+
+# Static file server
+files.example.com {
+    root * /srv/files
+    file_server browse
+    basicauth {
+        admin $2a$14$xxxxxxxxxxxxxx
+    }
+}
+```
+
+### Traefik
+
+```yaml
+# docker-compose.yml with Traefik
+version: '3'
+services:
+  traefik:
+    image: traefik:v3.0
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.email=admin@example.com"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt"
+
+  web:
+    image: nginx:alpine
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=Host(`example.com`)"
+      - "traefik.http.routers.web.entrypoints=websecure"
+      - "traefik.http.routers.web.tls.certresolver=letsencrypt"
+      - "traefik.http.services.web.loadbalancer.server.port=80"
+
+  api:
+    image: node:20-alpine
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`api.example.com`)"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.api.loadbalancer.server.port=3000"
+```
+
+```bash
+# Traefik CLI
+traefik version
+traefik healthcheck
+
+# Dynamic configuration (file provider)
+# /etc/traefik/dynamic.yml
+http:
+  routers:
+    dashboard:
+      rule: Host(`traefik.example.com`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      service: api@internal
+      middlewares:
+        - auth
+  middlewares:
+    auth:
+      basicAuth:
+        users:
+          - "admin:$$2y$$10$$xxxxxxxxx"
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 📦 Package Building
+
+### Building .deb Packages
+
+```bash
+# Install build dependencies
+sudo apt install build-essential devscripts debhelper -y
+
+# Create package structure
+mkdir -p mypackage-1.0/debian
+cd mypackage-1.0
+
+# Create control file
+cat > debian/control << EOF
+Source: mypackage
+Section: utils
+Priority: optional
+Maintainer: Your Name <you@example.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.0
+
+Package: mypackage
+Architecture: any
+Depends: \${shlibs:Depends}, \${misc:Depends}
+Description: My awesome package
+ A longer description of my awesome package.
+EOF
+
+# Create changelog
+cat > debian/changelog << EOF
+mypackage (1.0-1) unstable; urgency=medium
+
+  * Initial release
+
+ -- Your Name <you@example.com>  Mon, 08 Jun 2026 10:00:00 +0000
+EOF
+
+# Create copyright file
+cat > debian/copyright << EOF
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: mypackage
+Files: *
+Copyright: 2026 Your Name <you@example.com>
+License: MIT
+EOF
+
+# Build package
+dpkg-buildpackage -us -uc -b
+
+# Check .deb contents
+dpkg-deb -c ../mypackage_1.0-1_amd64.deb
+dpkg-deb -I ../mypackage_1.0-1_amd64.deb
+
+# Install .deb
+sudo dpkg -i ../mypackage_1.0-1_amd64.deb
+
+# Extract .deb contents
+dpkg-deb -x ../mypackage_1.0-1_amd64.deb /tmp/extracted
+
+# Build source package
+dpkg-buildpackage -us -uc -S
+```
+
+### Building .rpm Packages
+
+```bash
+# Install build dependencies
+sudo dnf install rpmdevtools rpmlint -y
+
+# Setup RPM build tree
+rpmdev-setuptree
+
+# Create spec file
+cat > ~/rpmbuild/SPECS/mypackage.spec << EOF
+Name:           mypackage
+Version:        1.0
+Release:        1%{?dist}
+Summary:        My awesome package
+
+License:        MIT
+URL:            https://example.com
+Source0:        %{name}-%{version}.tar.gz
+
+BuildRequires:  gcc, make
+Requires:       openssl
+
+%description
+A longer description of my awesome package.
+
+%prep
+%setup -q
+
+%build
+make %{?_smp_mflags}
+
+%install
+%make_install
+
+%files
+%{_bindir}/mypackage
+%{_mandir}/man1/mypackage.1*
+
+%changelog
+* Mon Jun 08 2026 Your Name <you@example.com> - 1.0-1
+- Initial release
+EOF
+
+# Build RPM
+rpmbuild -ba ~/rpmbuild/SPECS/mypackage.spec
+
+# Check RPM info
+rpm -qip ~/rpmbuild/RPMS/x86_64/mypackage-1.0-1.x86_64.rpm
+
+# List RPM contents
+rpm -qlp ~/rpmbuild/RPMS/x86_64/mypackage-1.0-1.x86_64.rpm
+
+# Install RPM
+sudo rpm -ivh ~/rpmbuild/RPMS/x86_64/mypackage-1.0-1.x86_64.rpm
+
+# Extract RPM
+rpm2cpio mypackage-1.0-1.x86_64.rpm | cpio -idmv
+```
+
+### Building Packages from Source
+
+```bash
+# Autotools project
+./configure --prefix=/usr --sysconfdir=/etc
+make
+sudo make install
+
+# CMake project
+mkdir build && cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr
+make -j$(nproc)
+sudo make install
+
+# Meson project
+meson setup build --prefix=/usr
+meson compile -C build
+sudo meson install -C build
+
+# Python package
+python setup.py build
+sudo python setup.py install
+# or
+pip install .
+
+# Node.js package (global)
+npm install -g .
+
+# Check install target
+./configure --help | grep prefix
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 🌐 Environment Variables & Shell Configuration
+
+### Essential Environment Variables
+
+```bash
+# PATH - where the shell looks for executables
+echo $PATH
+export PATH=$PATH:/usr/local/bin
+
+# HOME - user's home directory
+echo $HOME
+
+# USER / LOGNAME - current username
+echo $USER
+
+# SHELL - current shell
+echo $SHELL
+
+# PWD - current working directory
+echo $PWD
+
+# EDITOR / VISUAL - default editor
+export EDITOR=vim
+export VISUAL=vim
+
+# LANG / LC_ALL - locale settings
+echo $LANG
+export LANG=en_US.UTF-8
+
+# TERM - terminal type
+echo $TERM
+
+# DISPLAY - X11 display
+export DISPLAY=:0
+
+# PS1 - shell prompt
+echo $PS1
+export PS1='\u@\h:\w\$ '
+
+# LD_LIBRARY_PATH - shared library search path
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+
+# MANPATH - man page search path
+export MANPATH=/usr/local/share/man:$MANPATH
+
+# HISTFILE / HISTSIZE / HISTFILESIZE - history configuration
+export HISTSIZE=10000
+export HISTFILESIZE=20000
+export HISTFILE=~/.bash_history
+
+# TMPDIR - temporary directory
+export TMPDIR=/tmp
+```
+
+### Shell Configuration Files
+
+```bash
+# System-wide
+/etc/profile          # Login shell configuration
+/etc/bash.bashrc      # Interactive shell configuration (Debian/Ubuntu)
+/etc/bashrc           # Interactive shell configuration (RHEL/CentOS)
+/etc/environment      # Environment variables
+/etc/profile.d/*.sh   # Additional system profiles
+
+# User-specific
+~/.bash_profile       # Login shell (executed first)
+~/.bash_login         # Login shell (if .bash_profile not found)
+~/.profile            # Login shell (if neither above found)
+~/.bashrc             # Interactive non-login shell
+~/.bash_logout        # Logout cleanup
+~/.inputrc            # Readline configuration
+~/.config/user-dirs.dirs  # XDG user directories
+
+# Load order for login shell:
+# 1. /etc/profile
+# 2. ~/.bash_profile, ~/.bash_login, or ~/.profile (first found)
+# 3. ~/.bashrc (via ~/.bash_profile usually)
+```
+
+### ~/.bashrc Examples
+
+```bash
+# ~/.bashrc - Common useful additions
+
+# Aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias grep='grep --color=auto'
+alias df='df -h'
+alias du='du -h'
+alias free='free -h'
+alias cls='clear'
+alias ports='ss -tulanp'
+alias myip='curl -s ifconfig.me'
+alias update='sudo apt update && sudo apt upgrade -y'
+alias hist='history | grep'
+alias mkdir='mkdir -pv'
+
+# Safety aliases
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias ln='ln -i'
+
+# Git aliases
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git log --oneline --graph --all --decorate'
+alias gd='git diff'
+alias gco='git checkout'
+alias gcb='git checkout -b'
+
+# Docker aliases
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias di='docker images'
+alias dexec='docker exec -it'
+alias dlogs='docker logs -f'
+alias dprune='docker system prune -a --volumes -f'
+alias dcup='docker compose up -d'
+alias dcdown='docker compose down'
+
+# Functions
+mkcd() { mkdir -p "$1" && cd "$1"; }
+extract() {
+    if [ -f $1 ]; then
+        case $1 in
+            *.tar.bz2)   tar xjf $1     ;;
+            *.tar.gz)    tar xzf $1     ;;
+            *.bz2)       bunzip2 $1     ;;
+            *.rar)       unrar e $1     ;;
+            *.gz)        gunzip $1      ;;
+            *.tar)       tar xf $1      ;;
+            *.tbz2)      tar xjf $1     ;;
+            *.tgz)       tar xzf $1     ;;
+            *.zip)       unzip $1       ;;
+            *.Z)         uncompress $1  ;;
+            *.7z)        7z x $1        ;;
+            *)           echo "'$1' cannot be extracted" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# History settings
+shopt -s histappend
+shopt -s cmdhist
+HISTTIMEFORMAT="%F %T "
+
+# Tab completion improvements
+bind 'set show-all-if-ambiguous on'
+bind 'set menu-complete-display-prefix on'
+
+# Prevent overwrite with redirection
+set -o noclobber
+
+# Prompt customization
+PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+# With git branch
+git_branch() { git branch 2>/dev/null | grep '^*' | colrm 1 2; }
+PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(git_branch)\$ '
+```
+
+### ~/.inputrc (Readline Configuration)
+
+```bash
+# ~/.inputrc
+# Case-insensitive tab completion
+set completion-ignore-case on
+
+# Show all completions on first Tab
+set show-all-if-ambiguous on
+
+# Use Page-Up/Page-Down to search history
+"\e[5~": history-search-backward
+"\e[6~": history-search-forward
+
+# Up/Down arrow partial matching
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# Ctrl+arrows for word skipping
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+
+# Home/End keys
+"\e[H": beginning-of-line
+"\e[F": end-of-line
+
+# Delete key
+"\e[3~": delete-char
+
+# Enable alternate mappings
+set meta-flag on
+set input-meta on
+set output-meta on
+set convert-meta off
+
+# Colored completion
+set colored-stats on
+set visible-stats on
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 🧪 Testing & Profiling
+
+### Load Testing
+
+```bash
+# Apache Bench (ab)
+ab -n 10000 -c 100 https://example.com/
+ab -n 1000 -c 50 -H "Authorization: Bearer token" https://api.example.com/users
+ab -n 10000 -c 200 -k https://example.com/  # Keep-alive
+
+# wrk
+wrk -t12 -c400 -d30s https://example.com/
+wrk -t4 -c100 -d60s --latency https://api.example.com/endpoint
+
+# siege
+siege -c 100 -t 60s https://example.com/
+siege -c 50 -r 100 -f urls.txt
+
+# hey
+hey -n 10000 -c 100 https://example.com/
+hey -z 30s -c 50 https://example.com/api
+
+# Vegeta
+echo "GET https://example.com/" | vegeta attack -duration=30s -rate=100 | vegeta report
+echo "GET https://example.com/" | vegeta attack -duration=60s -rate=50/s | tee results.bin | vegeta report
+cat results.bin | vegeta plot > plot.html
+
+# Locust (Python based)
+# locustfile.py
+from locust import HttpUser, task, between
+class WebsiteUser(HttpUser):
+    wait_time = between(1, 5)
+    @task
+    def index(self):
+        self.client.get("/")
+    @task(3)
+    def about(self):
+        self.client.get("/about")
+```
+
+```bash
+# Run Locust
+locust -f locustfile.py --host=https://example.com
+locust -f locustfile.py --headless -u 100 -r 10 --run-time 5m --host=https://example.com
+```
+
+### Profiling
+
+```bash
+# Python profiling
+python -m cProfile -o output.prof script.py
+python -m pstats output.prof
+
+# Node.js profiling
+node --prof app.js
+node --prof-process isolate-*.log > processed.txt
+node --inspect app.js  # Chrome DevTools protocol
+
+# Go profiling
+go test -bench . -cpuprofile cpu.prof -memprofile mem.prof
+go tool pprof -http=:8080 cpu.prof
+
+# Java profiling
+jcmd 1234 Thread.print
+jcmd 1234 GC.heap_info
+jcmd 1234 VM.native_memory
+jstat -gcutil 1234 1000 10
+jmap -heap 1234
+jmap -dump:live,format=b,file=heap.hprof 1234
+```
+
+[⬆ Back to TOC](#-table-of-contents)
+
+---
+
+## 🔁 File Synchronization & Transfer
+
+### Advanced rsync
+
+```bash
+# Incremental backup with hard links
+rsync -avz --link-dest=/backups/prev /source/ /backups/current
+
+# Remote sync with bandwidth limit
+rsync -avz --bwlimit=2000 -e "ssh -p 2222" /local/ user@remote:/backup/
+
+# Sync with include/exclude patterns from file
+rsync -avz --include-from=include.txt --exclude-from=exclude.txt /source/ /dest/
+
+# Sync and preserve ACLs, xattrs
+rsync -avAX /source/ /dest/
+
+# Sync only directory structure (no files)
+rsync -av --include='*/' --exclude='*' /source/ /dest/
+
+# Sync files newer than specific date
+rsync -av --files-from=<(find /source -newer /tmp/timestamp -type f) /source/ /dest/
+
+# Dry run with itemized changes
+rsync -avz --dry-run --itemize-changes /source/ /dest/
+
+# Show transfer progress and partial transfer
+rsync -avzP /source/ user@host:/dest/
+
+# Delete excluded files on destination
+rsync -avz --delete-excluded /source/ /dest/
+
+# Sync via daemon (rsyncd)
+rsync -avz rsync://host/module/path/ /local/path/
+```
+
+### rclone
+
+```bash
+# Configure
+rclone config
+
+# List remotes
+rclone listremotes
+
+# List files
+rclone ls remote:path
+rclone lsl remote:path  # More detail
+rclone lsd remote:path  # Directories only
+
+# Copy
+rclone copy /local remote:path
+rclone copy remote:path /local
+rclone copy remote1:path remote2:path
+
+# Sync
+rclone sync /local remote:path
+rclone sync remote:path /local
+
+# Move
+rclone move /local remote:path
+
+# Check integrity
+rclone check /local remote:path
+rclone cryptcheck /local encrypted:path
+
+# Mount (FUSE)
+rclone mount remote:path /mnt/cloud &
+fusermount -u /mnt/cloud
+
+# Filtering
+rclone copy /local remote:path --include "*.jpg" --max-size 100M
+rclone copy /local remote:path --exclude "*.tmp" --min-age 7d
+
+# Bandwidth
+rclone copy /local remote:path --bwlimit 10M
+rclone copy /local remote:path --bwlimit "08:00,10M 18:00,5M"
+
+# Sync flags
+rclone sync /local remote:path --delete-excluded --progress --verbose
+rclone sync /local remote:path --backup-dir remote:old --suffix $(date +%Y%m%d)
 ```
 
 [⬆ Back to TOC](#-table-of-contents)

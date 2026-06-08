@@ -35,6 +35,17 @@
   <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/>
   <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
   <img src="https://img.shields.io/badge/redis-CC0000?style=for-the-badge&logo=redis&logoColor=white" alt="Redis"/>
+  <img src="https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" alt="Terraform"/>
+  <img src="https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white" alt="Ansible"/>
+  <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" alt="Prometheus"/>
+  <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" alt="Grafana"/>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Pages-6%2C614+-blue?style=flat-square&logo=bookstack&logoColor=white" alt="Pages"/>
+  <img src="https://img.shields.io/badge/Commands-500%2B-brightgreen?style=flat-square&logo=gnu-bash&logoColor=white" alt="Commands"/>
+  <img src="https://img.shields.io/badge/Sections-53-blueviolet?style=flat-square&logo=markdown&logoColor=white" alt="Sections"/>
+  <img src="https://img.shields.io/badge/Last%20Updated-2026-brightgreen?style=flat-square&logo=github&logoColor=white" alt="Updated"/>
 </p>
 
 <br/>
@@ -117,10 +128,10 @@
 
 | Feature | Description |
 |---|---|
-| ✅ **Comprehensive** | 30+ categories, hundreds of commands |
+| ✅ **Massive Scope** | **53 sections, 6,600+ lines, 500+ commands** |
 | ✅ **Beginner-Friendly** | Clear explanations and expected outputs |
 | ✅ **Production-Ready** | Tips from real sysadmins and VPS operators |
-| ✅ **Always Updated** | Covers modern tools: Docker, K8s, Tailscale, and more |
+| ✅ **Always Updated** | Covers modern tools: Docker, K8s, Terraform, Ansible, Tailscale, and more |
 | ✅ **Open Source** | Community-driven — PRs and contributions welcome |
 
 ---
